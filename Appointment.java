@@ -1,35 +1,38 @@
 class Appointment{
 
-protected double fees;
-protected String time;
-protected String date;
-
-
-public Appointment(double fees,String time, String date ){
+ protected double Fees;
+ protected String Time;
+ protected String Date;
  
-    this.fees=fees;
-    this.time=time;
-    this.date=date;
+ public Appointment(double fees, String time, String date ){
+ 
+    this.Fees = fees;
+    this.Time = time;
+    this.Date = date;
     
-}
-}
-public void setfees(double fees){
-    this.fees=fees;
-}
-public String getfees(){
-    return this.fees;
-}
+ }
+ 
+ public void setFees(double fees){
+    this.Fees = fees;
+ }
+ 
+ public String getFees(){
+    return Fees;
+ }
 
-public void settime(String time){
-    this.time=time;
-}
-public String gettime(){
-    return this.time;
-}
+ public void setTime(String time){
+    this.Time = time;
+ }
 
-public void setdate(String date){
-    this.date=date;
-}
-public String getdate(){
-    return this.date;
+ public String getTime(){
+    return Time;
+ }
+
+ public void setDate(String date){
+    this.Date = date;
+ }
+
+ public String getDate(){
+    return Date;
+ }
 }
