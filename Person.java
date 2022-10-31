@@ -27,14 +27,14 @@ abstract class Person {
 	}
 	
 	public String getName () {
-		return this.Name;
+		return Name;
 	}
 	public void setDob (String dob) {
 		this.DateOfBirth = dob;
 	}
 	
 	public String getDob () {
-		return this.DateOfBirth;
+		return DateOfBirth;
 	}
 	
 	public void setGender (String gender) {
@@ -42,7 +42,7 @@ abstract class Person {
 	}
 	
 	public String getGender () {
-		return this.Gender;
+		return Gender;
 	}
 	
 	public void setAddressLine(String address) {
@@ -50,7 +50,7 @@ abstract class Person {
 	}
 	
 	public String getAddress() {
-		return this.Address;
+		return Address;
 	}
 	
 	public void setPincode (int pincode) {
@@ -58,7 +58,7 @@ abstract class Person {
 	}
 	
 	public int getPincode () {
-		return this.Pincode;
+		return Pincode;
 	}
 	
 	public abstract int ID();
