@@ -1,4 +1,6 @@
-//Patient Class
+package application;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Patient extends Person{
 
@@ -9,7 +11,7 @@ public class Patient extends Person{
 	protected String Blood_Group;
 	protected String Patient_ID;
 	
-	public void set_Blood_Group(String Blood_Group)
+	public void set_Blood_Group(String Blooad_Group)
 	{
 		this.Blood_Group = Blood_Group;
 	}
@@ -20,9 +22,17 @@ public class Patient extends Person{
 	}
 	
 	@Override
-	public int Create_ID()
+	public int login(String email , String pass)
 	{
-		
+		if(Email.equals(email))
+		{
+			if(Password.equals(pass))
+			{
+				return 1;
+			}
+			else return 0;
+		}
+		else return 0;
 	}
 
 }
