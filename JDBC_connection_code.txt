@@ -1,5 +1,6 @@
-import java.sql.*;
+// CAN BE USED IN VSCODE!
 
+import java.sql.*;
 public class Create_DB {
 
     public static void main(String[] args) {
