@@ -32,7 +32,7 @@ class Doctor extends Person{
 	@Override
 	public int login(String email , String pass)
 	{
-		if(Email.equals(email))
+		if(super.Email.equals(email))
 		{
 			if(Password.equals(pass))
 			{
