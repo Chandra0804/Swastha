@@ -3,7 +3,7 @@ abstract class Person {
 	// Fields
 	protected String Name;
 	protected String DateOfBirth;
-	protected String ID;
+	protected String Person_ID;
 	
 	protected String Gender;
 	
@@ -61,5 +61,5 @@ abstract class Person {
 		return Pincode;
 	}
 	
-	public abstract int ID();
+	public abstract int Create_ID();
 }
