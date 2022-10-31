@@ -34,7 +34,7 @@ class Doctor extends Person{
 	{
 		if(super.Email.equals(email))
 		{
-			if(Password.equals(pass))
+			if(super.Password.equals(pass))
 			{
 				return 1;
 			}
