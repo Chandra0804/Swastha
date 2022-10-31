@@ -9,7 +9,7 @@ public class Patient extends Person{
 	protected String Blood_Group;
 	protected String Patient_ID;
 	
-	public void set_Blood_Group(String Blooad_Group)
+	public void set_Blood_Group(String Blood_Group)
 	{
 		this.Blood_Group = Blood_Group;
 	}
