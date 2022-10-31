@@ -3,7 +3,8 @@ abstract class Person {
 	// Fields
 	protected String Name;
 	protected String DateOfBirth;
-	protected String Person_ID;
+	protected String Email;
+	protected String Password;
 	
 	protected String Gender;
 	
@@ -61,5 +62,10 @@ abstract class Person {
 		return Pincode;
 	}
 	
-	public abstract int Create_ID();
+	public void create_account(String email , String pass) {
+		this.Email = email;
+		this.Password = pass;
+	}
+	
+	public abstract int login(String email , String pass);
 }
