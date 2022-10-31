@@ -1,11 +1,11 @@
-//Doctor Class
+package application;
+
 class Doctor extends Person{
 	
 	public Doctor(String name, String dob, String gender, String address, int pincode) {
 		super(name, dob, gender, address, pincode);
 	}
 
-	protected int Doctor_ID;
 	protected String Specialization;
 	protected String Hospital_ID;
 	
@@ -30,9 +30,17 @@ class Doctor extends Person{
 	}
 	
 	@Override
-	public int Create_ID()
+	public int login(String email , String pass)
 	{
-		
+		if(Email.equals(email))
+		{
+			if(Password.equals(pass))
+			{
+				return 1;
+			}
+			else return 0;
+		}
+		else return 0;
 	}
 	
 }
