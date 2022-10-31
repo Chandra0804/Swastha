@@ -5,7 +5,7 @@ class Doctor extends Person{
 		super(name, dob, gender, address, pincode);
 	}
 
-	protected int DoctorID;
+	protected int Doctor_ID;
 	protected String Specialization;
 	protected String Hospital_ID;
 	
