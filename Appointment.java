@@ -16,7 +16,7 @@ class Appointment{
     this.Fees = fees;
  }
  
- public String getFees(){
+ public double getFees(){
     return Fees;
  }
 
