@@ -41,4 +41,8 @@ class Appointments{
  public Doctor getDoctor(){
 	 return doc;
  }
+ 
+ public Patient getPatient(){
+	 return p;
+ }
 }
