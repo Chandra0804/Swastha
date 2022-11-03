@@ -1,6 +1,6 @@
 package application;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
 
 public class Patient extends Person{
 
@@ -10,15 +10,29 @@ public class Patient extends Person{
 	
 	protected String Blood_Group;
 	protected String Patient_ID;
-	
-	public void set_Blood_Group(String Blooad_Group)
+	ArrayList<Appointments> Patient_Appointments = new ArrayList<Appointments>();
+	protected int Appointment_ID = 1;
+
+	public void setBlood_Group(String Blood_Group)
 	{
 		this.Blood_Group = Blood_Group;
 	}
 	
-	public String get_Blood_Group()
+	public String getBlood_Group()
 	{
 		return Blood_Group;
+	}
+	
+	public int Create_Appointment(Doctor d , String time , String date)
+	{
+		Patient_Appointments.add( new Appointments(d ,time , date) );
+		return Appointment_ID++;
+		
+	}
+	
+	public void Cancel_Appointment(int ID)
+	{
+		Patient_Appointments.remove(ID--);
 	}
 	
 	@Override
