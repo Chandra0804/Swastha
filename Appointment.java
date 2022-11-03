@@ -1,23 +1,25 @@
-class Appointment{
+package application;
 
- protected double Fees;
+class Appointments{
+	
  protected String Time;
  protected String Date;
+ protected Doctor doc;
+ protected Patient p;
  
- public Appointment(double fees, String time, String date ){
+ public Appointments(Doctor doc ,String time, String date ){
  
-    this.Fees = fees;
     this.Time = time;
     this.Date = date;
+    this.doc = doc;
     
  }
  
- public void setFees(double fees){
-    this.Fees = fees;
- }
- 
- public double getFees(){
-    return Fees;
+ public Appointments(Patient p ,String time, String date ){
+	 
+	    this.Time = time;
+	    this.Date = date;
+	    this.p = p;
  }
 
  public void setTime(String time){
@@ -34,5 +36,9 @@ class Appointment{
 
  public String getDate(){
     return Date;
+ }
+ 
+ public Doctor getDoctor(){
+	 return doc;
  }
 }
