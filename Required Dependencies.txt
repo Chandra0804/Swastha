@@ -1,0 +1,65 @@
+To work with Java Servlet, Add the Following Dependency in your pom.xml
+
+<dependency>
+  	<groupId>javax.servlet</groupId>
+  	<artifactId>javax.servlet-api</artifactId>
+  	<version>3.0.1</version>
+</dependency>
+
+
+
+
+To work with Data transfer from Excel to MySQL Server
+
+	<dependency>
+  		<groupId>org.apache.poi</groupId>
+  		<artifactId>poi</artifactId>
+  		<version>5.2.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-io</groupId>
+  		<artifactId>commons-io</artifactId>
+  		<version>2.7</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.poi</groupId>
+  		<artifactId>poi-ooxml</artifactId>
+  		<version>5.2.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.logging.log4j</groupId>
+  		<artifactId>log4j-to-slf4j</artifactId>
+  		<version>2.8.2</version>
+  	</dependency>
+  	<dependency>
+        	<groupId>org.slf4j</groupId>
+       		<artifactId>jcl-over-slf4j</artifactId>
+        	<version>1.7.0</version>
+        	<scope>runtime</scope>
+    	</dependency>
+    	<dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-api</artifactId>
+        	<version>1.7.0</version>
+        	<scope>runtime</scope>
+    	</dependency>
+    	<dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-log4j12</artifactId>
+        	<version>1.7.0</version>
+        	<scope>runtime</scope>
+    	</dependency>
+    	<dependency>
+        	<groupId>log4j</groupId>
+        	<artifactId>log4j</artifactId>
+        	<version>1.2.14</version>
+    	</dependency>
+
+
+For JDBC Connectivity, use the following dependency
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.26</version>
+</dependency>
