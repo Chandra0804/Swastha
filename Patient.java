@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Patient extends Person{
 
-	public Patient(String name, String dob, String gender, String address, int pincode) {
-		super(name, dob, gender, address, pincode);
+	public Patient(String name, String email, String password, String dob, String gender, String address, int pincode) {
+		super(name, email,password, dob, gender, address, pincode);
 	}
 	
 	protected String Blood_Group;
