@@ -44,7 +44,10 @@ class Doctor extends Person{
 	}
 	
 	public String getEmail(){
-		return email;
+		return Email;
+	}
+	public String setEmail(String email){
+		Email = email;
 	}
 	                                                                                                                               
 	public int add_Patient(Patient p , String time , String date)                                                                  
@@ -61,9 +64,9 @@ class Doctor extends Person{
 	@Override                                                                                                                      
 	public int login(String email , String pass)                                                                                   
 	{                                                                                                                              
-		if(super.Email.equals(email))                                                                                              
+		if(Email.equals(email))                                                                                              
 		{                                                                                                                          
-			if(super.Password.equals(pass))                                                                                        
+			if(Password.equals(pass))                                                                                        
 			{                                                                                                                      
 				return 1;                                                                                                          
 			}                                                                                                                      
