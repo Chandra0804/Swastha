@@ -1,5 +1,10 @@
 package swastha;
 
+/* OVERVIEW: 
+ * changed add_patient to addPatient
+ * changed remove_patient to removePatient
+ */
+
 import java.util.ArrayList;
 
 class Doctor extends Person {
@@ -39,12 +44,12 @@ class Doctor extends Person {
         return Fees;
     }
 
-    public int add_Patient(Patient p, String time, String date) {
+    public int addPatient(Patient p, String time, String date) {
         Patient_list.add(new Appointments(p, time, date));
         return Patient_index++;
     }
 
-    public void remove_Patient(int index) {
+    public void removePatient(int index) {
         Patient_list.remove(index);
     }
 
