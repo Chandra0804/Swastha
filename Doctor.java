@@ -10,7 +10,7 @@ class Doctor extends Person{
                                                                                                                                    
 	protected String Specialization;                                                                                               
 	protected String Hospital_ID;                                                                                                  
-	protected double fees;                                                                                                         
+	protected double Fees;                                                                                                         
 	ArrayList<Appointments> Patient_list = new ArrayList<Appointments>();                                                          
 	protected int Patient_index = 1;                                                                                               
 	protected Patient p;                                                                                                           
@@ -35,13 +35,17 @@ class Doctor extends Person{
 		return Specialization;                                                                                                     
 	}                                                                                                                              
 	                                                                                                                               
-	public void setfees(double fees){                                                                                              
-		this.fees = fees;                                                                                                          
+	public void setFees(double fees){                                                                                              
+		this.Fees = fees;                                                                                                          
 	}                                                                                                                              
 	                                                                                                                               
-	public double getfees(){                                                                                                       
-		return fees;                                                                                                               
-	}                                                                                                                              
+	public double getFees(){                                                                                                       
+		return Fees;                                                                                                               
+	}
+	
+	public String getEmail(){
+		return email;
+	}
 	                                                                                                                               
 	public int add_Patient(Patient p , String time , String date)                                                                  
 	{                                                                                                                              
