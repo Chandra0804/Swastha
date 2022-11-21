@@ -272,17 +272,10 @@ stmt.executeUpdate(Insert_Patient);
 
 
 
-
-
 catch(Exception e)
 {
 System.err.print(e);
 }
-
-
-
-
-
 
 
 
@@ -313,7 +306,6 @@ catch(Exception e)
 
 
 
-
 if(ps != null)
 {
 try
@@ -323,7 +315,6 @@ catch(Exception e)
 	{ System.err.println(e); }
 
 }
-
 
 
 
