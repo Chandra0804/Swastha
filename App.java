@@ -34,10 +34,10 @@ public class App extends Application {
             Statement stmt = con.createStatement();
 
             stmt.executeUpdate(
-                    "create table if not exists person(name varchar(50),email varchar(50),password varchar(50),pincode int)");
+                    "create table if not exists patient(name varchar(50),email varchar(50),password varchar(50),pincode int,blood_group varchar(20) , height decimal(10,2) , weight int)");
 
             stmt.executeUpdate(
-                    "create table if not exists doctor(email varchar(50), hospitalid varchar(50),specialization enum('IMMUNOLOGY','ANESTHESIOLOGY','DERMATOLOGY','ENT','NEUROLOGY','PEDIATRICS','PATHOLOGY','ONCOLOGY','DENTISTRY','OPTHALMOLOGY','EMERGENCY','GYNECOLOGY'))");
+                    "create table if not exists doctor(name varchar(50),password varchar(50),pincode int,email varchar(50), hospitalid varchar(50),specialization varchar(20),fees int)");
 
             
 
