@@ -103,7 +103,7 @@ public class DBUtilities {
 
     }
 
-    public static void logindoctor(ActionEvent event ,Doctor doc) {
+    public static void logindoctor(ActionEvent event ,String Email , String Password) {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
@@ -113,12 +113,12 @@ public class DBUtilities {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
             ps = con.prepareStatement("select * from doctor where email = ?");
-            ps.setString(1,doc.getEmail());
+            ps.setString(1,Email);
             rs1 = ps.executeQuery();
             if (rs1.isBeforeFirst()) {
                 stmt = con.prepareStatement("select * from doctor where email = ? and password = ?");
-                stmt.setString(1, doc.getEmail());
-                stmt.setString(2, doc.getPassword());
+                stmt.setString(1, Email);
+                stmt.setString(2,Password);
                 rs2 = stmt.executeQuery();
                 if(rs2.isBeforeFirst())
                 {
