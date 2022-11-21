@@ -27,6 +27,8 @@
                         doc.setSpecialization(change_to);
                     } else if ((Attribute.toLowerCase()).equals("address")) {
                         doc.setAddress(change_to);
+                    } else if ((Attribute.toLowerCase()).equals("pincode")) {
+                        doc.setPincode(Integer.parseInt(change_to));
                     }
 
                     // changing the sql relation
@@ -52,13 +54,14 @@
 
         } catch (Exception e) {
             System.err.println(e);
+        } finally {
+            con.close();
+            ps.close();
+            rs.close();
+            stmt.close();
         }
     }
-    
-    /////
-    
-    
-    
+
     public static void editPatient(Patient patient, String Attribute, String change_to) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -68,7 +71,7 @@
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             ps = con.prepareStatement("select * from patient where email = ?");
-            ps.setString(1, doc.getEmail());
+            ps.setString(1, patient.getEmail());
             rs = ps.executeQuery();
             if (rs.isBeforeFirst()) {
 
@@ -84,6 +87,8 @@
                         patient.setHeight(Double.parseDouble(change_to));
                     } else if ((Attribute.toLowerCase()).equals("weight")) {
                         patient.setWeight(Integer.parseInt(change_to));
+                    } else if ((Attribute.toLowerCase()).equals("pincode")) {
+                        patient.setPincode(Integer.parseInt(change_to));
                     }
 
                     stmt = con.prepareStatement("update patient set ? = ? where email = ? and password = ?");
@@ -107,7 +112,10 @@
             }
         } catch (Exception e) {
             System.err.println(e);
+        } finally {
+            con.close();
+            ps.close();
+            rs.close();
+            stmt.close();
         }
     }
-
-
