@@ -16,14 +16,16 @@ import javafx.stage.Stage;
 
 public class DBUtilities {
 
-    public void changeScene(ActionEvent event , String fxmlfile) throws IOException{
+    public static void changeScene(ActionEvent event , String fxmlfile) throws IOException{
         Parent root = null;
         FXMLLoader loader = new FXMLLoader(DBUtilities.class.getResource(fxmlfile));
         root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-    public static void signupDoctor(Doctor doc)
+    public static void signupDoctor(ActionEvent event , Doctor doc)
     {
         Connection con = null;
         PreparedStatement psInsert = null;
@@ -33,7 +35,7 @@ public class DBUtilities {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
             psCheckUserExists = con.prepareStatement("select * from doctor where email = ?");
-            psCheckUserExists.setString(1, doc.getemail());
+            psCheckUserExists.setString(1, doc.getEmail());
             rs = psCheckUserExists.executeQuery();
 
             if(rs.isBeforeFirst()){
@@ -50,7 +52,8 @@ public class DBUtilities {
                 psInsert.setInt(5, doc.getPincode());
                 psInsert.setString(6, doc.getSpecailization());
                 psInsert.setString(7, doc.getHospital_ID());
-                psInsert.setDouble(8, doc.getfees());
+                psInsert.setDouble(8, doc.getFees());
+                changeScene(event, "Doctor_login.fxml");
                 
             }
         } catch (Exception e) {
@@ -100,7 +103,7 @@ public class DBUtilities {
 
     }
 
-    public static void logindoctor(Doctor doc) {
+    public static void logindoctor(ActionEvent event ,Doctor doc) {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
@@ -109,15 +112,16 @@ public class DBUtilities {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
             ps = con.prepareStatement("select * from doctor where email = ?");
-            ps.setString(1,doc.getemail());
+            ps.setString(1,doc.getEmail());
             rs = ps.executeQuery();
             if (rs.isBeforeFirst()) {
                 stmt = con.prepareStatement("select * from doctor where email = ? and password = ?");
-                stmt.setString(1, doc.getemail());
+                stmt.setString(1, doc.getEmail());
+                stmt.setString(2, doc.getPassword());
                 rs = stmt.executeQuery();
                 if(rs.isBeforeFirst())
                 {
-
+                    changeScene(event,"DoctorHome.fxml");
                 }
 
             }
