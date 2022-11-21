@@ -1,0 +1,79 @@
+    public static void editDoctor(Doctor doc, String Attribute, String change_to) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
+            ps = con.prepareStatement("select * from doctor where email = ?");
+            ps.setString(1, doc.getEmail());
+            rs = ps.executeQuery();
+            if (rs.isBeforeFirst()) {
+                stmt = con.prepareStatement("select * from doctor where email = ? and password = ?");
+                stmt.setString(1, doc.getEmail());
+                rs = stmt.executeQuery();
+                if (rs.isBeforeFirst()) {
+                    stmt = con.prepareStatement("update doctor set ? = ? where email = ? and password = ?");
+                    stmt.setString(1, Attribute);
+                    stmt.setString(2, change_to);
+                    stmt.setString(3, doc.getEmail());
+                    stmt.setString(4, doc.getPassword());
+
+                    stmt.executeUpdate();
+
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Wrong Password!");
+                    alert.show();
+                }
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("No account found with entered email , please recheck your entered email");
+                alert.show();
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public static void editPatient(Patient patient, String Attribute, String change_to) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
+            ps = con.prepareStatement("select * from patient where email = ?");
+            ps.setString(1, doc.getEmail());
+            rs = ps.executeQuery();
+            if (rs.isBeforeFirst()) {
+                stmt = con.prepareStatement("select * from patient where email = ? and password = ?");
+                stmt.setString(1, doc.getEmail());
+                rs = stmt.executeQuery();
+                if (rs.isBeforeFirst()) {
+                    stmt = con.prepareStatement("update patient set ? = ? where email = ? and password = ?");
+                    stmt.setString(1, Attribute);
+                    stmt.setString(2, change_to);
+                    stmt.setString(3, doc.getEmail());
+                    stmt.setString(4, doc.getPassword());
+
+                    stmt.executeUpdate();
+
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Wrong Password!");
+                    alert.show();
+                }
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("No account found with entered email , please recheck your entered email");
+                alert.show();
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
