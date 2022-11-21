@@ -38,9 +38,8 @@ public class App extends Application {
 
             stmt.executeUpdate(
                     "create table if not exists doctor(name varchar(50),password varchar(50),pincode int,email varchar(50), hospitalid varchar(50),specialization varchar(20),fees int)");
-
+            stmt.executeUpdate("create table if not exists hospital(Hospital_Name varchar(60), Hospital_ID varchar(50), ph_no varchar(15)");
             
-
         } catch (Exception e) {
             System.err.println(e);
         }
