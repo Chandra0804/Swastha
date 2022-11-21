@@ -225,14 +225,14 @@ System.err.println(e);
 public void Sign_Up_Patient(Patient Patient_Object)
 {
 
-try
-{
-
 Connection connection = null;
 PreparedStatement ps = null;
 PreparedStatement stmt = null;
 ResultSet rs = null;
 
+
+try
+{
 
 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "1234");
 ps = con.prepareStatement("select * from Patient where Email = ?");
@@ -355,6 +355,126 @@ catch(Exception e)
 public void Login_Patient()
 {
 
+Connection connection = null;
+PreparedStatement ps = null;
+PreparedStatement stmt = null;
+ResultSet rs1 = null;
+ResultSet rs2 = null;
+
+
+try
+{
+
+connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "1234");
+ps = connection.prepareStatement("select * from Patient where Email = ?");
+ps.setString(1, Email);
+
+rs1 = ps.executeQuery();
+
+if(rs1.isBeforeFirst())
+	{ stmt = connection.prepareStatement("select * from Patient where Email = ? and Password = ?");
+          stmt.setString(1, Email);
+          stmt.setString(2, Password);
+          rs2 = stmt.executeQuery();
+          
+	  if(rs2.isBeforeFirst())
+          	changeScene(event,"PatientHome.fxml");
+               
+	}
+
+else
+{
+Alert alert = new Alert(Alert.AlertType.ERROR);
+alert.setContentText("No account found with entered email , please recheck your entered email");
+alert.show();
+}
+
+}   // End try block
+
+
+
+
+
+
+catch(Exception e)
+{
+System.err.print(e);
+}
+
+
+
+
+
+
+
+
+finally
+{
+
+if(rs1 != null)
+{
+try
+	{ rs1.close(); }
+
+catch(Exception e)
+	{ System.err.println(e); }
+
+}
+
+
+
+if(rs2 != null)
+{
+try
+	{ rs2.close(); }
+
+catch(Exception e)
+	{ System.err.println(e); }
+
+}
+
+
+
+
+if(ps != null)
+{
+try
+	{ ps.close(); }
+
+catch(Exception e)
+	{ System.err.println(e); }
+
+}
+
+
+
+
+if(stmt != null)
+{
+try
+	{ stmt.close(); }
+
+catch(Exception e)
+	{ System.err.println(e); }
+
+}
+
+
+
+if(connection != null)
+{
+try
+	{ connection.close(); }
+
+catch(Exception e)
+	{ System.err.println(e); }
+
+}
+
+
+
+
+}   // End finally
 
 
 }    // End Login_Patient Class
