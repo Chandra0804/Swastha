@@ -18,6 +18,8 @@ public class Patient extends Person {
     protected String Patient_ID;
     ArrayList<Appointments> Patient_Appointments = new ArrayList<Appointments>();
     protected int Appointment_ID = 1;
+    protected int weight;
+    protected double height;
 
     public void setBlood_Group(String Blood_Group) {
         this.Blood_Group = Blood_Group;
@@ -37,6 +39,22 @@ public class Patient extends Person {
         Patient_Appointments.remove(ID--);
     }
 
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
     @Override
     public int login(String email, String pass) {
         if (Email.equals(email)) {
@@ -47,4 +65,5 @@ public class Patient extends Person {
         } else
             return 0;
     }
+
 }
