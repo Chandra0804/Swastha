@@ -43,12 +43,6 @@ class Doctor extends Person{
 		return Fees;                                                                                                               
 	}
 	
-	public String getEmail(){
-		return Email;
-	}
-	public String setEmail(String email){
-		Email = email;
-	}
 	                                                                                                                               
 	public int add_Patient(Patient p , String time , String date)                                                                  
 	{                                                                                                                              
