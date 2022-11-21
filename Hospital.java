@@ -1,9 +1,10 @@
 package swastha;
 
-import java.io.*;
+/* OVERVIEW:
+ * CHANGED PINCODE TYPE TO INT
+ */
+
 import java.util.*;
-import java.lang.*;
-import java.sql.*;
 
 public class Hospital {
 
@@ -13,8 +14,8 @@ public class Hospital {
     protected ArrayList<Doctor> doctors = new ArrayList<>();
     protected String Address;
     protected int Pincode;
-    
-    Hospital(String hospital_name, String ph_no, String address, int pincode){
+
+    Hospital(String hospital_name, String ph_no, String address, int pincode) {
         Hospital_Name = hospital_name;
         Ph_no = ph_no;
         Address = address;
@@ -22,10 +23,10 @@ public class Hospital {
         Hospital_ID = hospital_name + ph_no;
     }
 
-    public String getHospital_ID(){
+    public String getHospital_ID() {
         return Hospital_ID;
     }
-    
+
     public String getHospitalName() {
         return Hospital_Name;
     }
@@ -33,12 +34,12 @@ public class Hospital {
     public void setHospitalName(String hospital_Name) {
         Hospital_Name = hospital_Name;
     }
-    
-    public String getPincode(){
-        return pincode;
+
+    public int getPincode() {
+        return Pincode;
     }
-    
-   public void setPincode(String pincode){
+
+    public void setPincode(int pincode) {
         Pincode = pincode;
     }
 
