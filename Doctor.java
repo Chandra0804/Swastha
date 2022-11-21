@@ -4,8 +4,8 @@ import java.util.ArrayList;
                                                                                                                                    
 class Doctor extends Person{                                                                                                       
 	                                                                                                                               
-	public Doctor(String name, String dob, String gender, String address, int pincode) {                                           
-		super(name, dob, gender, address, pincode);                                                                                
+	public Doctor(String name, String email, String password, String dob, String gender, String address, int pincode) {                                           
+		super(name, email, password, dob, gender, address, pincode);                                                                                
 	}                                                                                                                              
                                                                                                                                    
 	protected String Specialization;                                                                                               
