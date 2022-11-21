@@ -19,7 +19,7 @@ public class DBUtilities {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
             psCheckUserExists = con.prepareStatement("select * from doctor where email = ?");
-            psCheckUserExists.setString(1, doc.getemail());
+            psCheckUserExists.setString(1, doc.getEmail());
             rs = psCheckUserExists.executeQuery();
 
             if(rs.isBeforeFirst()){
@@ -36,7 +36,7 @@ public class DBUtilities {
                 psInsert.setInt(5, doc.getPincode());
                 psInsert.setString(6, doc.getSpecailization());
                 psInsert.setString(7, doc.getHospital_ID());
-                psInsert.setDouble(8, doc.getfees());
+                psInsert.setDouble(8, doc.getFees());
                 
             }
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class DBUtilities {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
             ps = con.prepareStatement("select password from person where email = ?");
             
-            rs = ps.executeQuery("select password from person where email = '" + doc.getemail() + "'");
+            rs = ps.executeQuery("select password from person where email = '" + doc.getEmail() + "'");
             if (rs.next()) {
                 /*
                  * if ((doc.login(doc.getemail(),rs.getString(1)))) {
