@@ -107,19 +107,20 @@ public class DBUtilities {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
             ps = con.prepareStatement("select * from doctor where email = ?");
             ps.setString(1,doc.getEmail());
-            rs = ps.executeQuery();
-            if (rs.isBeforeFirst()) {
+            rs1 = ps.executeQuery();
+            if (rs1.isBeforeFirst()) {
                 stmt = con.prepareStatement("select * from doctor where email = ? and password = ?");
                 stmt.setString(1, doc.getEmail());
                 stmt.setString(2, doc.getPassword());
-                rs = stmt.executeQuery();
-                if(rs.isBeforeFirst())
+                rs2 = stmt.executeQuery();
+                if(rs2.isBeforeFirst())
                 {
                     changeScene(event,"DoctorHome.fxml");
                 }
@@ -132,6 +133,58 @@ public class DBUtilities {
             }
         } catch (Exception e) {
             System.err.println(e);
+        }
+        finally{
+            if(rs1 != null)
+            {
+                try{
+                    rs1.close();
+                }
+                catch(Exception e)
+                {
+                    System.err.println(e);
+                }
+            }
+            if(rs2 != null)
+            {
+                try{
+                    rs2.close();
+                }
+                catch(Exception e)
+                {
+                    System.err.println(e);
+                }
+            }
+            if(ps != null)
+            {
+                try{
+                    ps.close();
+                }
+                catch(Exception e)
+                {
+                    System.err.println(e);
+                }
+            }
+            if(stmt!=null)
+            {
+                try{
+                    stmt.close();
+                }
+                catch(Exception e)
+                {
+                    System.err.println(e);
+                }
+            }
+            if(con!=null)
+            {
+                try{
+                    con.close();
+                }
+                catch(Exception e)
+                {
+                    System.err.println(e);
+                }
+            }
         }
     }
 
