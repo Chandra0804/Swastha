@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.DropdownButton?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="217.0" layoutY="30.0" text="Sign Up for Doctor">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="107.0" text="Name" />
+      <Label layoutX="39.0" layoutY="146.0" text="Date of Birth" />
+      <Label layoutX="39.0" layoutY="175.0" text="Gender" />
+      <Label layoutX="37.0" layoutY="207.0" text="Address" />
+      <Label layoutX="37.0" layoutY="241.0" text="Pincode" />
+      <Label layoutX="37.0" layoutY="275.0" text="Specialization" />
+      <Label layoutX="37.0" layoutY="304.0" text="Hospital ID" />
+      <Label layoutX="39.0" layoutY="333.0" text="Fee" />
+      <TextField layoutX="186.0" layoutY="103.0" />
+      <DatePicker layoutX="186.0" layoutY="142.0" />
+      <RadioButton layoutX="186.0" layoutY="175.0" mnemonicParsing="false" text="Male" />
+      <RadioButton layoutX="292.0" layoutY="175.0" mnemonicParsing="false" text="Female" />
+      <TextField layoutX="186.0" layoutY="203.0" />
+      <TextField layoutX="186.0" layoutY="237.0" />
+      <TextField layoutX="186.0" layoutY="300.0" />
+      <TextField layoutX="186.0" layoutY="329.0" />
+      <DropdownButton layoutX="187.0" layoutY="275.0">
+          <items>
+              <MenuItem text="Choice 1" />
+              <MenuItem text="Choice 2" />
+              <MenuItem text="Choice 3" />
+          </items>
+      </DropdownButton>
+   </children>
+</AnchorPane>
