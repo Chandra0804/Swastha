@@ -63,6 +63,22 @@ abstract class Person {
 		return Pincode;
 	}
 	
+	public String getEmail(){
+		return Email;
+	}
+	
+	public void setEmail(String email){
+		Email = email;
+	}
+	
+	public String getPassword(){
+		return Password;
+	}
+	
+	public void setPassword(String password){
+		Password = password;
+	}
+	
 	public void create_account(String email , String pass) {
 		this.Email = email;
 		this.Password = pass;
