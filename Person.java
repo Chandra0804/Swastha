@@ -12,14 +12,15 @@ abstract class Person {
 	protected int Pincode;
 	
 	// << Constructor >>
-	public Person (String name, String dob, String gender, String address, int pincode) {
+	public Person (String name, String email, String password, String dob, String gender, String address, int pincode) {
 		this.Name = name;
 		this.DateOfBirth = dob;
-		
+		this.Email = email;
+		this.Password = password;
 		this.Gender = gender;
-		
 		this.Address = address;
 		this.Pincode = pincode;
+		
 	}
 	
 	// Respective Accessors and Mutators
