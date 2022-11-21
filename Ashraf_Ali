@@ -13,6 +13,7 @@ connection.setAutoCommit(false);
 
 
 Statement stmt = connection.createStatement();
+stmt.execute("drop table if exists Patient");
 stmt.execute("create table if not exists Patient(Patient_ID varchar(30), Name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), Email varchar(50), Password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
 stmt.execute("truncate table Patient");
 
@@ -109,6 +110,10 @@ System.err.println(e);
 
 
 
+
+
+
+
 public void Load_Doctor_CSV()
 {
 
@@ -123,6 +128,7 @@ connection.setAutoCommit(false);
 
 
 Statement stmt = connection.createStatement();
+stmt.execute("drop table if exists Doctor");
 stmt.execute("create table if not exists Doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization enum('IMMUNOLOGY','ANESTHESIOLOGY','DERMATOLOGY','ENT','NEUROLOGY','PEDIATRICS','PATHOLOGY','ONCOLOGY','DENTISTRY','OPTHALMOLOGY','EMERGENCY','GYNECOLOGY'), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)");
 stmt.execute("truncate table Doctor");
 
