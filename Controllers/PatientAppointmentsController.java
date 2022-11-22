@@ -116,10 +116,10 @@ public class PatientAppointmentsController implements Initializable {
                 // getting Doctor info
                 rs1 = stmt.executeQuery("select name, hospital_id, fees,specialization from doctor where email = '"
                         + DoctorEmail + "'");
-                String DoctorName = rs.getString(1);
-                String Hospital_ID = rs.getString(2);
+                String DoctorName = rs1.getString(1);
+                String Hospital_ID = rs1.getString(2);
                 int Fees = rs.getInt(3);
-                String Specialization = rs.getString(4);
+                String Specialization = rs1.getString(4);
 
                 // getting Hospital Info
                 ResultSet rs2 = stmt
