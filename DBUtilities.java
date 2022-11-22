@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -569,6 +570,16 @@ public class DBUtilities {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psCheckHospitalStatus = connection.prepareStatement("select * from hospital where hospital_name = ?");
             resultset = psCheckHospitalStatus.executeQuery();
+            
+            java.sql.ResultSetMetaData rsmd = resultset.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            ArrayList<String> hospitalResultList = new ArrayList<>(columnCount); 
+            while (resultset.next()) {              
+                int i = 1;
+                while(i <= columnCount) {
+                hospitalResultList.add(resultset.getString(i++));
+            }
 
             if (resultset.isBeforeFirst()) {
                 changeScene(event, "HospitalList.fxml");
@@ -622,8 +633,16 @@ public class DBUtilities {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psCheckDoctorStatus = connection.prepareStatement("select * from doctor where name = ?");
             resultset = psCheckDoctorStatus.executeQuery();
-            Doctor doc = new Doctor(resultset.getString("Name"), resultset.getString("DateofBirth"), resultset.getString("Gender"), resultset.getString("Address"), resultset.getInt("Pincode"));
+            java.sql.ResultSetMetaData rsmd = resultset.getMetaData();
+            int columnCount = rsmd.getColumnCount();
 
+            ArrayList<String> doctorResultList = new ArrayList<>(columnCount); 
+            while (resultset.next()) {              
+                int i = 1;
+                while(i <= columnCount) {
+                doctorResultList.add(resultset.getString(i++));
+            }
+            
             if (resultset.isBeforeFirst()) {
                 changeScene(event, "DoctorList.fxml");
             } else {
