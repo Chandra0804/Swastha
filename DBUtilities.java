@@ -622,6 +622,7 @@ public class DBUtilities {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psCheckDoctorStatus = connection.prepareStatement("select * from doctor where name = ?");
             resultset = psCheckDoctorStatus.executeQuery();
+            Doctor doc = new Doctor(resultset.getString("Name"), resultset.getString("DateofBirth"), resultset.getString("Gender"), resultset.getString("Address"), resultset.getInt("Pincode"));
 
             if (resultset.isBeforeFirst()) {
                 changeScene(event, "DoctorList.fxml");
