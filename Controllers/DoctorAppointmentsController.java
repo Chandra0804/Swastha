@@ -7,6 +7,7 @@ import java.util.List;
 import java.lang.reflect.Constructor;
 
 import com.mysql.cj.conf.IntegerProperty;
+import com.mysql.cj.protocol.Resultset;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,16 +28,16 @@ public class DoctorAppointmentsController {
     private Button BackButton;
 
     @FXML
-    private TableColumn<dataClass, String> DateColumn;
+    private TableColumn<dataClassDoctor, String> DateColumn;
 
     @FXML
-    private TableColumn<dataClass, String> PatientNameColumn;
+    private TableColumn<dataClassDoctor, String> PatientNameColumn;
 
     @FXML
-    private TableView<dataClass> TableView;
+    private TableView<dataClassDoctor> TableView;
 
     @FXML
-    private TableColumn<dataClass, String> TimeColumn;
+    private TableColumn<dataClassDoctor, String> TimeColumn;
 
     @FXML
     private TextField EmailField;
@@ -44,12 +45,11 @@ public class DoctorAppointmentsController {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 
-        DateColumn.setCellValueFactory(new PropertyValueFactory<dataClass, String>("Date"));
-        PatientNameColumn.setCellValueFactory(new PropertyValueFactory<dataClass, String>("Name"));
-        TimeColumn.setCellValueFactory(new PropertyValueFactory<dataClass, String>("Time"));
-        TableView.getItems().setAll(result()); // here im setting the items in the table to what's in the resultant list from result().
+        DateColumn.setCellValueFactory(new PropertyValueFactory<dataClassDoctor, String>("Date"));
+        PatientNameColumn.setCellValueFactory(new PropertyValueFactory<dataClassDoctor, String>("Name"));
+        TimeColumn.setCellValueFactory(new PropertyValueFactory<dataClassDoctor, String>("Time"));
+        TableView.getItems().setAll(result());
 
-      // below is the functionality for back button
         BackButton.setOnAction(
                 new EventHandler<ActionEvent>() {
 
@@ -67,13 +67,13 @@ public class DoctorAppointmentsController {
                 });
     }
 
-    // data class to make objects and insert them into the table
-    public class dataClass {
+    // data class to insert the data into the table
+    public class dataClassDoctor {
         private String PatientName;
         private String Date;
         private String Time;
 
-        dataClass(String patientname, String date, String time) {
+        dataClassDoctor(String patientname, String date, String time) {
             this.PatientName = patientname;
             this.Date = date;
             this.Time = time;
@@ -106,25 +106,27 @@ public class DoctorAppointmentsController {
     }
 
     // function that gets data from the database and returns the resultant data
-    private List<dataClass> result() {
+    private List<dataClassDoctor> result() {
+        ResultSet rs;
+        ResultSet rs1;
         List ll = new LinkedList();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "PVCTARUN");
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt
+            rs = stmt
                     .executeQuery("select patientEmail,doctorEmail,date,time from appointment where doctorEmail = '"
                             + EmailField.getText() + "'");
-            if (rs.next()) {
+            while (rs.next()) {
                 String Date = rs.getString(3);
                 String Time = rs.getString(4);
                 String patientEmail = rs.getString(1);
                 String patientName;
 
-                rs = stmt.executeQuery("select name from patient where email = '" + patientEmail + "'");
-                patientName = rs.getString(1);
+                rs1 = stmt.executeQuery("select name from patient where email = '" + patientEmail + "'");
+                patientName = rs1.getString(1);
 
-                dataClass data = new dataClass(patientName, Date, Time);
+                dataClassDoctor data = new dataClassDoctor(patientName, Date, Time);
                 ll.add(data);
 
             }
