@@ -19,8 +19,7 @@ import javafx.stage.Stage;
 
 public class DBUtilities {
 
-    public static void createTables() throws SQLException
-    {
+    public static void createTables() throws SQLException {
         Connection con = null;
         Statement stmt = null;
         try {
@@ -30,21 +29,22 @@ public class DBUtilities {
                     "MOHAN RAO");
             stmt = con.createStatement();
 
-            stmt.executeUpdate("create table if not exists patient(name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), email varchar(50), password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
+            stmt.executeUpdate(
+                    "create table if not exists patient(name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), email varchar(50), password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
 
-            stmt.executeUpdate("create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int,Fees double)");
-            stmt.executeUpdate("create table if not exists hospital(hospital_name varchar(50), hospital_ID varchar(50), ph_no varchar(15))");
-            stmt.executeUpdate("create table if not exists appointment(appointmentID varchar(50),time varchar(50),date varchar(50),doctorEmail varchar(50) , patientEmail varchar(50))");
+            stmt.executeUpdate(
+                    "create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int,Fees double)");
+            stmt.executeUpdate(
+                    "create table if not exists hospital(hospital_name varchar(50), hospital_ID varchar(50), ph_no varchar(15))");
+            stmt.executeUpdate(
+                    "create table if not exists appointment(appointmentID varchar(50),time varchar(50),date varchar(50),doctorEmail varchar(50) , patientEmail varchar(50))");
         } catch (Exception e) {
             System.err.println(e);
-        }
-        finally{
-            if(stmt!=null)
-            {
+        } finally {
+            if (stmt != null) {
                 stmt.close();
             }
-            if(con!=null)
-            {
+            if (con != null) {
                 con.close();
             }
         }
@@ -74,7 +74,9 @@ public class DBUtilities {
             if (rs.isBeforeFirst()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("There is already an account registered with this email");
-                //create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)"
+                // create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50),
+                // Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50),
+                // Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)"
                 alert.show();
             } else {
                 psInsert = con.prepareStatement("insert into doctor values(?,?,?,?,?,?,?,?,?,?)");
@@ -88,7 +90,7 @@ public class DBUtilities {
                 psInsert.setString(8, doc.getAddress());
                 psInsert.setInt(9, doc.getPincode());
                 psInsert.setDouble(10, doc.getFees());
-        
+
                 changeScene(event, "DoctorLogin.fxml");
 
             }
@@ -570,23 +572,24 @@ public class DBUtilities {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psCheckHospitalStatus = connection.prepareStatement("select * from hospital where hospital_name = ?");
             resultset = psCheckHospitalStatus.executeQuery();
-            
+
             java.sql.ResultSetMetaData rsmd = resultset.getMetaData();
             int columnCount = rsmd.getColumnCount();
 
-            ArrayList<String> hospitalResultList = new ArrayList<>(columnCount); 
-            while (resultset.next()) {              
+            ArrayList<String> hospitalResultList = new ArrayList<>(columnCount);
+            while (resultset.next()) {
                 int i = 1;
-                while(i <= columnCount) {
-                hospitalResultList.add(resultset.getString(i++));
-            }
+                while (i <= columnCount) {
+                    hospitalResultList.add(resultset.getString(i++));
+                }
 
-            if (resultset.isBeforeFirst()) {
-                changeScene(event, "HospitalList.fxml");
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("No Hospitals found");
-                alert.show();
+                if (resultset.isBeforeFirst()) {
+                    changeScene(event, "HospitalList.fxml");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("No Hospitals found");
+                    alert.show();
+                }
             }
         }
 
@@ -636,19 +639,20 @@ public class DBUtilities {
             java.sql.ResultSetMetaData rsmd = resultset.getMetaData();
             int columnCount = rsmd.getColumnCount();
 
-            ArrayList<String> doctorResultList = new ArrayList<>(columnCount); 
-            while (resultset.next()) {              
+            ArrayList<String> doctorResultList = new ArrayList<>(columnCount);
+            while (resultset.next()) {
                 int i = 1;
-                while(i <= columnCount) {
-                doctorResultList.add(resultset.getString(i++));
-            }
-            
-            if (resultset.isBeforeFirst()) {
-                changeScene(event, "DoctorList.fxml");
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("No Doctors found");
-                alert.show();
+                while (i <= columnCount) {
+                    doctorResultList.add(resultset.getString(i++));
+                }
+
+                if (resultset.isBeforeFirst()) {
+                    changeScene(event, "DoctorList.fxml");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("No Doctors found");
+                    alert.show();
+                }
             }
         }
 
@@ -689,7 +693,8 @@ public class DBUtilities {
         }
     }
 
-    public static void editDoctor(ActionEvent event, String email, String password , String Attribute, String change_to) {
+    public static void editDoctor(ActionEvent event, String email, String password, String Attribute,
+            String change_to) {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
@@ -912,12 +917,13 @@ public class DBUtilities {
             String csvFilePath = "Patient_CSV.csv";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "MOHAN RAO");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root",
+                    "MOHAN RAO");
             connection.setAutoCommit(false);
 
             Statement stmt = connection.createStatement();
             stmt.execute("drop table if exists patient");
-    
+
             stmt.execute(
                     "create table if not exists patient(name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), Email varchar(50), Password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
             stmt.execute("truncate table patient");
@@ -1004,7 +1010,8 @@ public class DBUtilities {
             String csvFilePath = "Doctor_CSV.csv";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "MOHAN RAO");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root",
+                    "MOHAN RAO");
             connection.setAutoCommit(false);
 
             Statement stmt = connection.createStatement();
