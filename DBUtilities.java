@@ -1,8 +1,12 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +17,37 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class DBUtilities {
+
+    public static void createTables() throws SQLException
+    {
+        Connection con = null;
+        Statement stmt = null;
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root",
+                    "MOHAN RAO");
+            stmt = con.createStatement();
+
+            stmt.executeUpdate("create table if not exists patient(name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), email varchar(50), password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
+
+            stmt.executeUpdate("create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int,Fees double)");
+            stmt.executeUpdate("create table if not exists hospital(hospital_name varchar(50), hospital_ID varchar(50), ph_no varchar(15))");
+            stmt.executeUpdate("create table if not exists appointment(appointmentID varchar(50),time varchar(50),date varchar(50),doctorEmail varchar(50) , patientEmail varchar(50))");
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        finally{
+            if(stmt!=null)
+            {
+                stmt.close();
+            }
+            if(con!=null)
+            {
+                con.close();
+            }
+        }
+    }
 
     public static void changeScene(ActionEvent event, String fxmlfile) throws IOException {
         Parent root = null;
@@ -38,17 +73,21 @@ public class DBUtilities {
             if (rs.isBeforeFirst()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("There is already an account registered with this email");
+                //create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)"
                 alert.show();
             } else {
-                psInsert = con.prepareStatement("insert into doctor values(?,?,?,?,?,?,?,?)");
-                psInsert.setString(1, doc.getName());
-                psInsert.setString(2, doc.getDob());
+                psInsert = con.prepareStatement("insert into doctor values(?,?,?,?,?,?,?,?,?,?)");
+                psInsert.setString(1, doc.getHospital_ID());
+                psInsert.setString(2, doc.getName());
                 psInsert.setString(3, doc.getGender());
-                psInsert.setString(4, doc.getAddress());
-                psInsert.setInt(5, doc.getPincode());
-                psInsert.setString(6, doc.getSpecialization());
-                psInsert.setString(7, doc.getHospital_ID());
-                psInsert.setDouble(8, doc.getFees());
+                psInsert.setString(4, doc.getDob());
+                psInsert.setString(5, doc.getSpecialization());
+                psInsert.setString(6, doc.getEmail());
+                psInsert.setString(7, doc.getPassword());
+                psInsert.setString(8, doc.getAddress());
+                psInsert.setInt(9, doc.getPincode());
+                psInsert.setDouble(10, doc.getFees());
+        
                 changeScene(event, "DoctorLogin.fxml");
 
             }
@@ -106,8 +145,7 @@ public class DBUtilities {
                 rs2 = stmt.executeQuery();
                 if (rs2.isBeforeFirst()) {
                     changeScene(event, "DoctorHome.fxml");
-                }
-                else{
+                } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Incorrect email or password");
                     alert.show();
@@ -115,7 +153,7 @@ public class DBUtilities {
 
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("No account found with entered email , please recheck your entered email");
+                alert.setContentText("Please recheck your entered email or password");
                 alert.show();
             }
         } catch (Exception e) {
@@ -159,7 +197,7 @@ public class DBUtilities {
         }
     }
 
-    public void SignUpPatient(ActionEvent event , Patient Patient_Object) {
+    public static void SignUpPatient(ActionEvent event, Patient Patient_Object) {
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -169,7 +207,7 @@ public class DBUtilities {
         try {
 
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
-            ps = connection.prepareStatement("select * from doctor where email = ?");
+            ps = connection.prepareStatement("select * from patient where email = ?");
             ps.setString(1, Patient_Object.getEmail());
 
             rs = ps.executeQuery();
@@ -178,10 +216,9 @@ public class DBUtilities {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("There is already an account registered with this email");
                 alert.show();
-            }
-            else {
+            } else {
 
-                String Name, DateOfBirth, Email, Password, Gender, Address,Blood_Group;
+                String Name, DateOfBirth, Email, Password, Gender, Address, Blood_Group;
                 int Pincode, Patient_Weight;
                 double Patient_Height;
                 Name = Patient_Object.getName();
@@ -268,7 +305,7 @@ public class DBUtilities {
 
     } // End Sign_Up_Patient Method
 
-    public void LoginPatient(ActionEvent event , String Email , String Password) {
+    public static void LoginPatient(ActionEvent event, String Email, String Password) {
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -290,9 +327,8 @@ public class DBUtilities {
                 stmt.setString(2, Password);
                 rs2 = stmt.executeQuery();
                 if (rs2.isBeforeFirst()) {
-                changeScene(event, "PatientHome.fxml");
-                }
-                else{
+                    changeScene(event, "PatientHome.fxml");
+                } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Incorrect email or password");
                     alert.show();
@@ -373,8 +409,7 @@ public class DBUtilities {
 
     } // End Login_Patient Class
 
-    public static void CreateAppointment(ActionEvent event,Appointment app)
-    {
+    public static void CreateAppointment(ActionEvent event, Appointment app) {
         Connection con = null;
         PreparedStatement psInsert = null;
         ResultSet rs = null;
@@ -383,42 +418,33 @@ public class DBUtilities {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psInsert = con.prepareStatement("insert into appointment values(?,?,?,?,?)");
             psInsert.setString(1, app.getId());
-            psInsert.setString(2,app.getTime());
+            psInsert.setString(2, app.getTime());
             psInsert.setString(3, app.getDate());
             psInsert.setString(4, app.getDoctor().getEmail());
             psInsert.setString(5, app.getPatient().getEmail());
-            changeScene(event,"AppointmentsofPatient.fxml");
+            changeScene(event, "AppointmentsofPatient.fxml");
 
         } catch (Exception e) {
             System.err.println(e);
-        }finally{
-            if(rs != null)
-            {
-                try{
+        } finally {
+            if (rs != null) {
+                try {
                     rs.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-            if(psInsert!=null)
-            {
-                try{
+            if (psInsert != null) {
+                try {
                     psInsert.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-            if(con!=null)
-            {
-                try{
+            if (con != null) {
+                try {
                     con.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
@@ -426,27 +452,24 @@ public class DBUtilities {
 
     }
 
-    public static void Cancel_Appointment(ActionEvent event,Appointment app)
-    {
+    public static void Cancel_Appointment(ActionEvent event, Appointment app) {
         Connection con = null;
         PreparedStatement psDelete = null;
         PreparedStatement psCheckAppointmentExists = null;
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psCheckAppointmentExists = con.prepareStatement("select * from appointment where appointmentID = ?");
             psCheckAppointmentExists.setString(1, app.getId());
             rs = psCheckAppointmentExists.executeQuery();
 
-            if(rs.isBeforeFirst())
-            {
+            if (rs.isBeforeFirst()) {
                 psDelete = con.prepareStatement("delete from appointment where appointmentID = ?");
-                psDelete.setString(1,app.getId());
+                psDelete.setString(1, app.getId());
                 psDelete.executeQuery();
-                changeScene(event,"AppointmentsofPatient.fxml");
-            }
-            else{
+                changeScene(event, "AppointmentsofPatient.fxml");
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("No Appointment found to delete with given Appointment ID ");
                 alert.show();
@@ -454,45 +477,33 @@ public class DBUtilities {
 
         } catch (Exception e) {
             System.err.println(e);
-        }finally{
-            if(rs != null)
-            {
-                try{
+        } finally {
+            if (rs != null) {
+                try {
                     rs.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-            if(psCheckAppointmentExists != null)
-            {
-                try{
+            if (psCheckAppointmentExists != null) {
+                try {
                     psCheckAppointmentExists.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-            if(psDelete != null)
-            {
-                try{
+            if (psDelete != null) {
+                try {
                     psDelete.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-           
-            if(con!=null)
-            {
-                try{
+
+            if (con != null) {
+                try {
                     con.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
@@ -500,22 +511,20 @@ public class DBUtilities {
 
     }
 
-    public static void Search_Appointment(ActionEvent event,Appointment app)
-    {
+    public static void Search_Appointment(ActionEvent event, Appointment app) {
         Connection con = null;
         PreparedStatement psCheckAppointmentExists = null;
         ResultSet rs = null;
 
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root","MOHAN RAO");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             psCheckAppointmentExists = con.prepareStatement("select * from appointment where appointmentID = ?");
             psCheckAppointmentExists.setString(1, app.getId());
             rs = psCheckAppointmentExists.executeQuery();
 
-            if(rs.isBeforeFirst()){
-                changeScene(event,"AppointmentsofPatient.fxml");
-            }
-            else{
+            if (rs.isBeforeFirst()) {
+                changeScene(event, "AppointmentsofPatient.fxml");
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("No Appointments found");
                 alert.show();
@@ -523,35 +532,26 @@ public class DBUtilities {
 
         } catch (Exception e) {
             System.err.println(e);
-        }finally{
-            if(rs != null)
-            {
-                try{
+        } finally {
+            if (rs != null) {
+                try {
                     rs.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-            if(psCheckAppointmentExists != null)
-            {
-                try{
+            if (psCheckAppointmentExists != null) {
+                try {
                     psCheckAppointmentExists.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
-            
-            if(con!=null)
-            {
-                try{
+
+            if (con != null) {
+                try {
                     con.close();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
@@ -559,7 +559,7 @@ public class DBUtilities {
 
     }
 
-    public static void searchHospital(ActionEvent event,Hospital hospital) {
+    public static void searchHospital(ActionEvent event, Hospital hospital) {
 
         Connection connection = null;
         PreparedStatement psCheckHospitalStatus = null;
@@ -570,10 +570,9 @@ public class DBUtilities {
             psCheckHospitalStatus = connection.prepareStatement("select * from hospital where hospital_name = ?");
             resultset = psCheckHospitalStatus.executeQuery();
 
-            if(resultset.isBeforeFirst()) {
+            if (resultset.isBeforeFirst()) {
                 changeScene(event, "HospitalList.fxml");
-            }
-            else{
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("No Hospitals found");
                 alert.show();
@@ -585,7 +584,7 @@ public class DBUtilities {
         }
 
         finally {
-            if(resultset != null) {
+            if (resultset != null) {
                 try {
                     resultset.close();
                 }
@@ -594,7 +593,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(psCheckHospitalStatus != null) {
+            if (psCheckHospitalStatus != null) {
                 try {
                     psCheckHospitalStatus.close();
                 }
@@ -603,18 +602,17 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(connection != null) {
+            if (connection != null) {
                 try {
                     connection.close();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
             }
         }
     }
 
-    public static void searchDoctor(ActionEvent event,Doctor doctor) {
+    public static void searchDoctor(ActionEvent event, Doctor doctor) {
 
         Connection connection = null;
         PreparedStatement psCheckDoctorStatus = null;
@@ -625,10 +623,9 @@ public class DBUtilities {
             psCheckDoctorStatus = connection.prepareStatement("select * from doctor where name = ?");
             resultset = psCheckDoctorStatus.executeQuery();
 
-            if(resultset.isBeforeFirst()) {
+            if (resultset.isBeforeFirst()) {
                 changeScene(event, "DoctorList.fxml");
-            }
-            else{
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("No Doctors found");
                 alert.show();
@@ -640,7 +637,7 @@ public class DBUtilities {
         }
 
         finally {
-            if(resultset != null) {
+            if (resultset != null) {
                 try {
                     resultset.close();
                 }
@@ -650,7 +647,7 @@ public class DBUtilities {
                 }
             }
 
-            if(psCheckDoctorStatus != null) {
+            if (psCheckDoctorStatus != null) {
                 try {
                     psCheckDoctorStatus.close();
                 }
@@ -660,10 +657,10 @@ public class DBUtilities {
                 }
             }
 
-            if(connection != null) {
+            if (connection != null) {
                 try {
                     connection.close();
-                    }
+                }
 
                 catch (Exception e) {
                     System.err.println(e);
@@ -672,7 +669,7 @@ public class DBUtilities {
         }
     }
 
-    public static void editDoctor(ActionEvent event,Doctor doc, String Attribute, String change_to) {
+    public static void editDoctor(ActionEvent event, String email, String password , String Attribute, String change_to) {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
@@ -684,34 +681,23 @@ public class DBUtilities {
 
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             ps = con.prepareStatement("select * from doctor where email = ?");
-            ps.setString(1, doc.getEmail());
+            ps.setString(1, email);
             rs1 = ps.executeQuery();
 
             if (rs1.isBeforeFirst()) {
 
                 stmt = con.prepareStatement("select * from doctor where email = ? and password = ?");
-                stmt.setString(1, doc.getEmail());
+                stmt.setString(1, email);
                 rs2 = stmt.executeQuery();
 
                 if (rs2.isBeforeFirst()) {
-
-                    // changing the parameterized object's attributes
-                    if ((Attribute.toLowerCase()).equals("hospitalid")) {
-                        doc.setHospital_ID(change_to);
-                    } else if ((Attribute.toLowerCase()).equals("specialization")) {
-                        doc.setSpecialization(change_to);
-                    } else if ((Attribute.toLowerCase()).equals("address")) {
-                        doc.setAddress(change_to);
-                    } else if ((Attribute.toLowerCase()).equals("pincode")) {
-                        doc.setPincode(Integer.parseInt(change_to));
-                    }
 
                     // changing the sql relation
                     psupdate = con.prepareStatement("update doctor set ? = ? where email = ? and password = ?");
                     psupdate.setString(1, Attribute);
                     psupdate.setString(2, change_to);
-                    psupdate.setString(3, doc.getEmail());
-                    psupdate.setString(4, doc.getPassword());
+                    psupdate.setString(3, email);
+                    psupdate.setString(4, password);
 
                     psupdate.executeUpdate();
                     changeScene(event, "DoctorHome.fxml");
@@ -731,7 +717,7 @@ public class DBUtilities {
         } catch (Exception e) {
             System.err.println(e);
         } finally {
-            if(rs1 != null) {
+            if (rs1 != null) {
                 try {
                     rs1.close();
                 }
@@ -740,7 +726,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(rs2 != null) {
+            if (rs2 != null) {
                 try {
                     rs2.close();
                 }
@@ -749,7 +735,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(psupdate != null) {
+            if (psupdate != null) {
                 try {
                     psupdate.close();
                 }
@@ -758,7 +744,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(stmt != null) {
+            if (stmt != null) {
                 try {
                     stmt.close();
                 }
@@ -767,7 +753,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(ps != null) {
+            if (ps != null) {
                 try {
                     ps.close();
                 }
@@ -776,7 +762,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 }
@@ -788,7 +774,7 @@ public class DBUtilities {
         }
     }
 
-    public static void editPatient(ActionEvent event,Patient patient, String Attribute, String change_to) {
+    public static void editPatient(ActionEvent event, Patient patient, String Attribute, String change_to) {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
@@ -842,7 +828,7 @@ public class DBUtilities {
         } catch (Exception e) {
             System.err.println(e);
         } finally {
-            if(rs1 != null) {
+            if (rs1 != null) {
                 try {
                     rs1.close();
                 }
@@ -851,7 +837,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(rs2 != null) {
+            if (rs2 != null) {
                 try {
                     rs2.close();
                 }
@@ -860,7 +846,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(psupdate != null) {
+            if (psupdate != null) {
                 try {
                     psupdate.close();
                 }
@@ -869,7 +855,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(stmt != null) {
+            if (stmt != null) {
                 try {
                     stmt.close();
                 }
@@ -878,7 +864,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(ps != null) {
+            if (ps != null) {
                 try {
                     ps.close();
                 }
@@ -887,7 +873,7 @@ public class DBUtilities {
                     System.err.println(e);
                 }
             }
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 }
@@ -898,4 +884,184 @@ public class DBUtilities {
             }
         }
     }
+
+    public void Load_Patient_CSV() {
+
+        try {
+
+            String csvFilePath = "Patient_CSV.csv";
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "MOHAN RAO");
+            connection.setAutoCommit(false);
+
+            Statement stmt = connection.createStatement();
+            stmt.execute("drop table if exists patient");
+    
+            stmt.execute(
+                    "create table if not exists patient(name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), Email varchar(50), Password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
+            stmt.execute("truncate table patient");
+
+            PreparedStatement statement = connection
+                    .prepareStatement("insert into Patient values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+
+            String lineText = null;
+            int count = 0, batchSize = 20;
+            lineReader.readLine();
+
+            while ((lineText = lineReader.readLine()) != null) {
+
+                String[] data = lineText.split(",");
+
+                String ID = data[0];
+                String name = data[1];
+                String blood_group = data[2];
+                String dob = data[3];
+                String email = data[4];
+                String password = data[5];
+                String gender = data[6];
+
+                String address = "";
+                int index = 7;
+
+                while (true) {
+                    boolean isNumeric = data[index].chars().allMatch(Character::isDigit);
+                    if (isNumeric) {
+                        int length = address.length();
+                        address = address.substring(2, length - 1);
+                        break;
+                    } else {
+                        address = address + "," + data[index];
+                        index = index + 1;
+                    }
+                }
+
+                int pincode = Integer.parseInt(data[index]);
+                int weight = Integer.parseInt(data[index + 1]);
+                double height = Double.parseDouble(data[index + 2]);
+
+                statement.setString(1, ID);
+                statement.setString(2, name);
+                statement.setString(3, blood_group);
+                statement.setString(4, dob);
+                statement.setString(5, email);
+                statement.setString(6, password);
+                statement.setString(7, gender);
+                statement.setString(8, address);
+                statement.setInt(9, pincode);
+                statement.setInt(10, weight);
+                statement.setDouble(11, height);
+
+                statement.addBatch();
+
+                if (count % batchSize == 0)
+                    statement.executeBatch();
+
+            }
+
+            lineReader.close();
+
+            statement.executeBatch();
+            connection.commit();
+            connection.close();
+
+            System.out.print("\nInsertion of Patient Data into Database Server is Successfully Implemented\n");
+
+        }
+
+        catch (Exception e) {
+            System.out.println("\nAn Exception has Occurred\n");
+            System.err.println(e);
+        }
+
+    } // End Load_Patient_CSV Class
+
+    public void Load_Doctor_CSV() {
+
+        try {
+
+            String csvFilePath = "Doctor_CSV.csv";
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "MOHAN RAO");
+            connection.setAutoCommit(false);
+
+            Statement stmt = connection.createStatement();
+            stmt.execute("drop table if exists doctor");
+            stmt.execute(
+                    "create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)");
+            stmt.execute("truncate table doctor");
+
+            PreparedStatement statement = connection
+                    .prepareStatement("insert into doctor values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+
+            String lineText = null;
+            int count = 0, batchSize = 20;
+            lineReader.readLine();
+
+            while ((lineText = lineReader.readLine()) != null) {
+
+                String[] data = lineText.split(",");
+
+                String ID = data[0];
+                String name = data[1];
+                String gender = data[2];
+                String dob = data[3];
+                String specialization = data[4];
+                String email = data[5];
+                String password = data[6];
+
+                String address = "";
+                int index = 7;
+
+                while (true) {
+                    boolean isNumeric = data[index].chars().allMatch(Character::isDigit);
+                    if (isNumeric) {
+                        int length = address.length();
+                        address = address.substring(2, length - 1);
+                        break;
+                    } else {
+                        address = address + "," + data[index];
+                        index = index + 1;
+                    }
+                }
+
+                int pincode = Integer.parseInt(data[index]);
+
+                statement.setString(1, ID);
+                statement.setString(2, name);
+                statement.setString(3, gender);
+                statement.setString(4, dob);
+                statement.setString(5, specialization);
+                statement.setString(6, email);
+                statement.setString(7, password);
+                statement.setString(8, address);
+                statement.setInt(9, pincode);
+
+                statement.addBatch();
+
+                if (count % batchSize == 0)
+                    statement.executeBatch();
+
+            }
+
+            lineReader.close();
+
+            statement.executeBatch();
+            connection.commit();
+            connection.close();
+
+            System.out.print("\nInsertion of Doctor Data into Database Server is Successfully Implemented\n");
+
+        }
+
+        catch (Exception e) {
+            System.out.println("\nAn Exception has Occurred\n");
+            System.err.println(e);
+        }
+
+    } // End Load_Doctor_CSV Class
+
 }
