@@ -49,7 +49,7 @@ public class EditDoctorController implements Initializable {
 
                 if (hospitalid != null) {
                     try {
-                        DBUtilities.editDoctor(username.getText(), password.getText(), "Hospital_ID",
+                        DBUtilities.editDoctor(event,username.getText(), password.getText(), "Hospital_ID",
                                 hospitalid.getText());
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -57,7 +57,7 @@ public class EditDoctorController implements Initializable {
                 }
                 if (address != null) {
                     try {
-                        DBUtilities.editDoctor(username.getText(), password.getText(), "Address",
+                        DBUtilities.editDoctor(event,username.getText(), password.getText(), "Address",
                                 address.getText());
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -65,7 +65,7 @@ public class EditDoctorController implements Initializable {
                 }
                 if (specialization != null) {
                     try {
-                        DBUtilities.editDoctor(username.getText(), password.getText(), "Specialization",
+                        DBUtilities.editDoctor(event,username.getText(), password.getText(), "Specialization",
                                 specialization.getText());
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -73,7 +73,7 @@ public class EditDoctorController implements Initializable {
                 }
                 if (pincode != null) {
                     try {
-                        DBUtilities.editDoctor(username.getText(), password.getText(), "Pincode",
+                        DBUtilities.editDoctor(event,username.getText(), password.getText(), "Pincode",
                                 pincode.getText());
                     } catch (SQLException e) {
                         e.printStackTrace();
