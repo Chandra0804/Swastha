@@ -21,8 +21,8 @@
       <DatePicker fx:id="DateField" layoutX="80.0" layoutY="132.0" />
       <Label layoutX="8.0" layoutY="84.0" text="Enter Email:" />
       <Label layoutX="2.0" layoutY="136.0" text="Apptmt. Date:" />
-      <TextField fx:id="AppointmentIDField" layoutX="79.0" layoutY="229.0" />
-      <Label layoutX="7.0" layoutY="233.0" text="Apptmt. ID: " />
+      <TextField fx:id="AppointmentIDField" layoutX="79.0" layoutY="233.0" />
+      <Label layoutX="2.0" layoutY="237.0" text="Apptmt. ID: " />
       <TableView fx:id="TableView" layoutX="256.0" layoutY="74.0" prefHeight="318.0" prefWidth="345.0">
         <columns>
           <TableColumn fx:id="DoctorNameColumn" prefWidth="84.0" text="Doctor Name" />
@@ -32,8 +32,8 @@
             <TableColumn fx:id="AppointmentIDColumn" prefWidth="80.79998779296875" text="ID" />
         </columns>
       </TableView>
-      <Button fx:id="CancelButton" layoutX="79.0" layoutY="266.0" mnemonicParsing="false" text="Cancel Appointment" />
-      <Button fx:id="BackButton" layoutX="12.0" layoutY="328.0" mnemonicParsing="false" text="Back" />
-      <Button fx:id="SearchButton" layoutX="105.0" layoutY="175.0" mnemonicParsing="false" text="Search" />
+      <Button fx:id="CancelButton" layoutX="79.0" layoutY="280.0" mnemonicParsing="false" text="Cancel Appointment" />
+      <Button fx:id="BackButton" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="SearchButton" layoutX="116.0" layoutY="188.0" mnemonicParsing="false" text="Search" />
    </children>
 </Pane>
