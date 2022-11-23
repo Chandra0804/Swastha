@@ -1,4 +1,4 @@
-```diff
+
 # SWASTHA: Book and Manage Doctor Appointments with ease!
 
 ## Swastha- Main features:
@@ -7,6 +7,8 @@
 -> We understand how hard it can be to keep track of appointments. Users can view their upcoming appointments and not miss _any_ !<br>
 -> Doctors can manage their upcoming appointments!<br>
 -> Doctors and general users can edit their profiles with the necessary important, updated information.<br>
+
+---
 
 ## Swastha- A Guide to each of the classes:
 
@@ -19,9 +21,10 @@
 
 _As of now, a doctor can only book an appointment with another doctor by making a different account registered as a patient._
 
+---
+
 ## Utilized softwares/ Libraries:
 
 -> **Java FX** : for writing GUI<br>
 -> **Scene Builder** : for GUI Building and Visualization.<br>
 -> **Java SQL Library** : MySQL Library for writing information onto the local database.<br>
-```
