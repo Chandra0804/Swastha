@@ -1,5 +1,5 @@
-package swastha;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -60,6 +60,8 @@ public class BookAppointmentController implements Initializable {
     @FXML
     private TextField PatientEmailField;
 
+    ObservableList<dataClassAppt> list = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 
@@ -76,7 +78,7 @@ public class BookAppointmentController implements Initializable {
 
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root",
-                            "PVCTARUN");
+                            "MOHAN RAO");
                     PreparedStatement stmt = con.prepareStatement("insert into appointment values(?,?,?,?,?)");
                     String uuid = UUID.randomUUID().toString();
                     stmt.setString(1, uuid);
@@ -85,6 +87,7 @@ public class BookAppointmentController implements Initializable {
                     stmt.setString(4, DoctorEmailField.getText());
                     stmt.setString(5, PatientEmailField.getText());
                     stmt.executeUpdate();
+
                 } catch (Exception e) {
                     System.err.println(e);
                 }
@@ -97,7 +100,8 @@ public class BookAppointmentController implements Initializable {
 
                     @Override
                     public void handle(ActionEvent event) {
-                        TableView.getItems().setAll(result());
+                        result();
+                        TableView.getItems().setAll(list);
                     }
 
                 });
@@ -135,11 +139,10 @@ public class BookAppointmentController implements Initializable {
 
     }
 
-    private List<dataClassAppt> result() {
-        LinkedList<dataClassAppt> ll = new LinkedList<dataClassAppt>();
+    private void result() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "PVCTARUN");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select name,email,hospital_id,fees from doctor where name = '%"
                     + DoctorNameField.getText() + "%'");
@@ -153,13 +156,12 @@ public class BookAppointmentController implements Initializable {
                         .executeQuery("select hospital_name from hospital where hospital_id = '" + hospID + "'");
                 String hospName = rs2.getString(1);
                 dataClassAppt data = new dataClassAppt(docName, docMail, hospName, fee);
-                ll.add(data);
+                list.add(data);
 
             }
         } catch (Exception e) {
             System.err.println(e);
         }
-        return ll;
     }
 
 }
