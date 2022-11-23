@@ -59,75 +59,111 @@ public class DBUtilities {
         stage.show();
     }
 
-    public static void SignUpDoctor(ActionEvent event, Doctor doc) {
-        Connection con = null;
-        PreparedStatement psInsert = null;
-        PreparedStatement psCheckUserExists = null;
-        ResultSet rs = null;
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
-            psCheckUserExists = con.prepareStatement("select * from doctor where email = ?");
-            psCheckUserExists.setString(1, doc.getEmail());
-            rs = psCheckUserExists.executeQuery();
+    
+public static void SignUpDoctor(ActionEvent event, Doctor doc)
+{
 
-            if (rs.isBeforeFirst()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("There is already an account registered with this email");
-                // create table if not exists doctor(Hospital_ID varchar(30), Name varchar(50),
-                // Gender varchar(20), DateOfBirth varchar(20), Specialization varchar(50),
-                // Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)"
-                alert.show();
-            } else {
-                psInsert = con.prepareStatement("insert into doctor values(?,?,?,?,?,?,?,?,?,?)");
-                psInsert.setString(1, doc.getHospital_ID());
-                psInsert.setString(2, doc.getName());
-                psInsert.setString(3, doc.getGender());
-                psInsert.setString(4, doc.getDob());
-                psInsert.setString(5, doc.getSpecialization());
-                psInsert.setString(6, doc.getEmail());
-                psInsert.setString(7, doc.getPassword());
-                psInsert.setString(8, doc.getAddress());
-                psInsert.setInt(9, doc.getPincode());
-                psInsert.setDouble(10, doc.getFees());
+Connection con = null;
+PreparedStatement psInsert = null;
+PreparedStatement psCheckUserExists = null;
+ResultSet rs = null;
 
-                changeScene(event, "DoctorLogin.fxml");
+try
+{
+con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
+psCheckUserExists = con.prepareStatement("select * from doctor where email = ?");
+psCheckUserExists.setString(1, doc.getEmail());
+rs = psCheckUserExists.executeQuery();
 
-            }
-        } catch (Exception e) {
-            System.err.println(e);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-            }
-            if (psCheckUserExists != null) {
-                try {
-                    psCheckUserExists.close();
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-            }
-            if (psInsert != null) {
-                try {
-                    psInsert.close();
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-            }
+if (rs.isBeforeFirst())
+{
+Alert alert = new Alert(Alert.AlertType.ERROR);
+alert.setContentText("There is already an account registered with this email");
+alert.show();
+} 
+
+
+
+else
+{
+psInsert = con.prepareStatement("insert into doctor values(?,?,?,?,?,?,?,?,?,?)");
+psInsert.setString(1, doc.getHospital_ID());
+psInsert.setString(2, doc.getName());
+psInsert.setString(3, doc.getGender());
+psInsert.setString(4, doc.getDob());
+psInsert.setString(5, doc.getSpecialization());
+psInsert.setString(6, doc.getEmail());
+psInsert.setString(7, doc.getPassword());
+psInsert.setString(8, doc.getAddress());
+psInsert.setInt(9, doc.getPincode());
+psInsert.setDouble(10, doc.getFees());
+
+
+
+String csvFile = "E:\\IIIT SRI CITY\\Swastha_Project\\EXCEL_CSV_DATA\\CSV_Data\\Doctor_CSV.csv";
+
+CSVWriter cw = new CSVWriter(new FileWriter(csvFile, true));
+
+String pincode = Integer.toString(doc.getPincode());
+String fees = Double.toString(doc.getFees());
+
+
+String Add_Data_To_CSV[] = {doc.getHospital_ID(), doc.getName(), doc.getGender(), doc.getDob(), doc.getSpecialization(), doc.getEmail(), doc.getPassword(), doc.getAddress(), pincode, fees};
+
+cw.writeNext(Add_Data_To_CSV);
+
+cw.close();
+	
+System.out.print("\nInsertion of Doctor Record into Database Server is Successfully Implemented\n");
+
+changeScene(event, "DoctorLogin.fxml");
+
+}
+
+
+
+catch (Exception e)
+{
+System.err.println(e);
+}
+
+finally
+{
+if (rs != null)
+	{ try { rs.close(); }
+          catch (Exception e) { System.err.println(e); }
         }
 
-    }
+
+if (psCheckUserExists != null)
+	{ try { psCheckUserExists.close(); }
+          catch (Exception e) { System.err.println(e); }
+        }
+
+
+if (psInsert != null)
+	{ try { psInsert.close(); }
+	  catch (Exception e) { System.err.println(e); }
+        }
+
+
+if (con != null)
+	{ try { con.close(); }
+	  catch (Exception e) { System.err.println(e); }
+        }
+
+}
+
+
+
+} // End Sign_Up_Doctor
+        
+        
+        
+        
+        
+        
 
     public static void LoginDoctor(ActionEvent event, String Email, String Password) {
         Connection con = null;
