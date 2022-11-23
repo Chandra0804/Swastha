@@ -10,29 +10,30 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CancelAppointmentController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CancelAppointmentController">
    <children>
       <Label layoutX="184.0" layoutY="14.0" text="Cancel Appointment.">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="EmailField" layoutX="93.0" layoutY="80.0" />
-      <DatePicker fx:id="DateField" layoutX="93.0" layoutY="132.0" />
-      <Label layoutX="14.0" layoutY="84.0" text="Enter Email:" />
-      <Label layoutX="14.0" layoutY="136.0" text="Apptmt. Date:" />
-      <TextField fx:id="AppointmentIDField" layoutX="93.0" layoutY="278.0" />
-      <Label layoutX="13.0" layoutY="282.0" text="Apptmt. ID: " />
-      <TableView fx:id="TableView" layoutX="276.0" layoutY="74.0" prefHeight="318.0" prefWidth="322.0">
+      <TextField fx:id="EmailField" layoutX="79.0" layoutY="80.0" />
+      <DatePicker fx:id="DateField" layoutX="80.0" layoutY="132.0" />
+      <Label layoutX="8.0" layoutY="84.0" text="Enter Email:" />
+      <Label layoutX="2.0" layoutY="136.0" text="Apptmt. Date:" />
+      <TextField fx:id="AppointmentIDField" layoutX="79.0" layoutY="229.0" />
+      <Label layoutX="7.0" layoutY="233.0" text="Apptmt. ID: " />
+      <TableView fx:id="TableView" layoutX="256.0" layoutY="74.0" prefHeight="318.0" prefWidth="345.0">
         <columns>
-          <TableColumn fx:id="DoctorNameColumn" prefWidth="96.0" text="Doctor Name" />
-          <TableColumn fx:id="DoctorSpecializationColumn" prefWidth="90.39996337890625" text="Specialization" />
-            <TableColumn fx:id="HospitalNameColumn" prefWidth="75.199951171875" text="Hospital" />
-            <TableColumn fx:id="TimeColumn" prefWidth="66.40008544921875" text="Time" />
+          <TableColumn fx:id="DoctorNameColumn" prefWidth="84.0" text="Doctor Name" />
+          <TableColumn fx:id="DoctorSpecializationColumn" prefWidth="92.79998779296875" text="Specialization" />
+            <TableColumn fx:id="HospitalNameColumn" prefWidth="56.0" text="Hospital" />
+            <TableColumn fx:id="TimeColumn" prefWidth="55.20001220703125" text="Time" />
+            <TableColumn fx:id="AppointmentIDColumn" prefWidth="80.79998779296875" text="ID" />
         </columns>
       </TableView>
-      <Button fx:id="CancelButton" layoutX="105.0" layoutY="312.0" mnemonicParsing="false" text="Cancel Appointment" />
-      <Button fx:id="BackButton" layoutX="13.0" layoutY="361.0" mnemonicParsing="false" text="Back" />
-      <Button fx:id="SearchButton" layoutX="128.0" layoutY="188.0" mnemonicParsing="false" text="Search" />
+      <Button fx:id="CancelButton" layoutX="79.0" layoutY="266.0" mnemonicParsing="false" text="Cancel Appointment" />
+      <Button fx:id="BackButton" layoutX="12.0" layoutY="328.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="SearchButton" layoutX="105.0" layoutY="175.0" mnemonicParsing="false" text="Search" />
    </children>
 </Pane>
