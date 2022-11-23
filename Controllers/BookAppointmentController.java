@@ -84,7 +84,7 @@ public class BookAppointmentController implements Initializable {
                     stmt.setString(3, DateField.getValue().toString());
                     stmt.setString(4, DoctorEmailField.getText());
                     stmt.setString(5, PatientEmailField.getText());
-
+                    stmt.executeUpdate();
                 } catch (Exception e) {
                     System.err.println(e);
                 }
