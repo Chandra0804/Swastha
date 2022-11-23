@@ -694,6 +694,7 @@ public class DBUtilities {
         }
     }
 
+    // function to allow the doctor to edit their profile.
     public static void editDoctor(ActionEvent event, String email, String password, String Attribute,
             String change_to) {
         Connection con = null;
@@ -705,16 +706,17 @@ public class DBUtilities {
 
         try {
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO"); // connect to DB with your own password
             ps = con.prepareStatement("select * from doctor where email = ?");
             ps.setString(1, email);
-            rs1 = ps.executeQuery();
+            rs1 = ps.executeQuery(); // gives the result set of doctors whose email id mathches the given mail. (should only be 1)
 
             if (rs1.isBeforeFirst()) {
 
-                stmt = con.prepareStatement("select * from doctor where email = ? and password = ?");
+                stmt = con.prepareStatement("select * from doctor where email = ? and password = ?"); 
                 stmt.setString(1, email);
-                rs2 = stmt.executeQuery();
+                stmt.setString(2, password);
+                rs2 = stmt.executeQuery(); // gives the result set of doctors with the given email and correct password. 
 
                 if (rs2.isBeforeFirst()) {
 
@@ -742,7 +744,9 @@ public class DBUtilities {
 
         } catch (Exception e) {
             System.err.println(e);
-        } finally {
+        } 
+        // with 'finally', we take care of resource leaks and close all the opened sql statements 
+        finally {
             if (rs1 != null) {
                 try {
                     rs1.close();
@@ -800,7 +804,8 @@ public class DBUtilities {
         }
     }
 
-    public static void editPatient(ActionEvent event, Patient patient, String Attribute, String change_to) {
+    // for patients to edit their profile.
+    public static void editPatient(ActionEvent event, String email,String password, String Attribute, String change_to) {
         Connection con = null;
         PreparedStatement ps = null;
         PreparedStatement stmt = null;
@@ -811,34 +816,27 @@ public class DBUtilities {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/swastha", "root", "MOHAN RAO");
             ps = con.prepareStatement("select * from patient where email = ?");
-            ps.setString(1, patient.getEmail());
+            ps.setString(1, email);
             rs1 = ps.executeQuery();
             if (rs1.isBeforeFirst()) {
 
                 stmt = con.prepareStatement("select * from patient where email = ? and password = ?");
-                stmt.setString(1, patient.getEmail());
+                stmt.setString(1, email);
+                stmt.setString(2, password);
                 rs2 = stmt.executeQuery();
 
                 if (rs2.isBeforeFirst()) {
-
-                    if ((Attribute.toLowerCase()).equals("address")) {
-                        patient.setAddress(change_to);
-                    } else if ((Attribute.toLowerCase()).equals("height")) {
-                        patient.setHeight(Double.parseDouble(change_to));
-                    } else if ((Attribute.toLowerCase()).equals("weight")) {
-                        patient.setWeight(Integer.parseInt(change_to));
-                    } else if ((Attribute.toLowerCase()).equals("pincode")) {
-                        patient.setPincode(Integer.parseInt(change_to));
-                    }
-
                     psupdate = con.prepareStatement("update patient set ? = ? where email = ? and password = ?");
                     psupdate.setString(1, Attribute);
                     psupdate.setString(2, change_to);
-                    psupdate.setString(3, patient.getEmail());
-                    psupdate.setString(4, patient.getPassword());
+                    psupdate.setString(3, email);
+                    psupdate.setString(4, password);
 
                     psupdate.executeUpdate();
-                    changeScene(event, "PatientHome.fxml");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Edit Successful."); // show an alert notifying the user that the edit has been successful.
+                    alert.show();
+                    changeScene(event, "PatientHome.fxml"); // go back to patient home screen after the edit.
 
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -853,7 +851,7 @@ public class DBUtilities {
             }
         } catch (Exception e) {
             System.err.println(e);
-        } finally {
+        } finally { // finally tag closes all the opened sql parts
             if (rs1 != null) {
                 try {
                     rs1.close();
