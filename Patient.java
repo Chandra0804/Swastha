@@ -18,8 +18,8 @@ public class Patient extends Person {
     protected String Patient_ID;
     ArrayList<Appointments> Patient_Appointments = new ArrayList<Appointments>();
     protected int Appointment_ID = 1;
-    protected int weight;
-    protected double height;
+    protected int Patient_Weight;
+    protected double Patient_Height;
 
     public void setBlood_Group(String Blood_Group) {
         this.Blood_Group = Blood_Group;
@@ -39,20 +39,20 @@ public class Patient extends Person {
         Patient_Appointments.remove(ID--);
     }
 
-    public void setHeight(double height) {
-        this.height = height;
+    public void setHeight(double Patient_Height) {
+        this.Patient_Height = height;
     }
 
-    public double getHeight() {
-        return height;
+    public double getPatient_Height() {
+        return Patient_Height;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setPatient_Weight(int weight) {
+        this.Patient_Weight = weight;
     }
 
-    public int getWeight() {
-        return weight;
+    public int getPatient_Weight() {
+        return Patient_Weight;
     }
 
     @Override
