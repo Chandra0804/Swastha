@@ -1,7 +1,8 @@
 
 # SWASTHA: Book and Manage Doctor Appointments with ease!
 
-🔴 ## Swastha- Main features:
+🔴 
+## Swastha- Main features:
 
 -> Users can book appointments with doctors from their trusted hospitals.<br>
 -> We understand how hard it can be to keep track of appointments. Users can view their upcoming appointments and not miss _any_ !<br>
@@ -10,7 +11,8 @@
 
 ---
 
-🟠 ## Swastha- A Guide to each of the classes:
+🟠 
+## Swastha- A Guide to each of the classes:
 
 -> **App.java**: Main file through which the project is run. <br>
 -> **Hospital.java**: Hospital class.<br>
@@ -23,7 +25,8 @@ _As of now, a doctor can only book an appointment with another doctor by making 
 
 ---
 
-🟢 ## Utilized softwares/ Libraries:
+🟢 
+## Utilized softwares/ Libraries:
 
 -> **Java FX** : for writing GUI<br>
 -> **Scene Builder** : for GUI Building and Visualization.<br>
