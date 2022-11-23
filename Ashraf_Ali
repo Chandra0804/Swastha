@@ -14,16 +14,16 @@ connection.setAutoCommit(false);
 
 Statement stmt = connection.createStatement();
 stmt.execute("drop table if exists Patient");
-stmt.execute("create table if not exists Patient(Patient_ID varchar(30), Name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), Email varchar(50), Password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
+stmt.execute("create table if not exists Patient(Name varchar(50), Blood_Group varchar(20), DateOfBirth varchar(20), Email varchar(50), Password varchar(50), Gender varchar(20), Address varchar(300), Pincode int, Patient_Weight int, Patient_Height decimal(10,2))");
 stmt.execute("truncate table Patient");
 
 
-PreparedStatement statement = connection.prepareStatement("insert into Patient values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+PreparedStatement statement = connection.prepareStatement("insert into Patient values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
 
 
 String lineText = null;
-int count = 0, batchSize = 20;
+int count = 0, batchSize = 100;
 lineReader.readLine(); 
 
 
@@ -33,16 +33,15 @@ while ((lineText = lineReader.readLine()) != null)
 
 String[] data = lineText.split(",");
 
-String ID           =  data[0];
-String name         =  data[1];
-String blood_group  =  data[2];
-String dob          =  data[3];
-String email        =  data[4];
-String password     =  data[5];
-String gender       =  data[6];
+String name         =  data[0];
+String blood_group  =  data[1];
+String dob          =  data[2];
+String email        =  data[3];
+String password     =  data[4];
+String gender       =  data[5];
 
 String address = "";
-int index = 7;
+int index = 6;
 
 while (true)
 {
@@ -62,17 +61,16 @@ int pincode         =  Integer.parseInt(data[index]);
 int weight          =  Integer.parseInt(data[index + 1]);
 double height       =  Double.parseDouble(data[index + 2]);
 	
-statement.setString(1, ID);
-statement.setString(2, name);
-statement.setString(3, blood_group);
-statement.setString(4, dob);
-statement.setString(5, email);
-statement.setString(6, password);
-statement.setString(7, gender);
-statement.setString(8, address);
-statement.setInt(9, pincode);
-statement.setInt(10, weight);
-statement.setDouble(11, height);
+statement.setString(1, name);
+statement.setString(2, blood_group);
+statement.setString(3, dob);
+statement.setString(4, email);
+statement.setString(5, password);
+statement.setString(6, gender);
+statement.setString(7, address);
+statement.setInt(8, pincode);
+statement.setInt(9, weight);
+statement.setDouble(10, height);
 
 statement.addBatch();
  
@@ -114,6 +112,11 @@ System.err.println(e);
 
 
 
+
+
+
+
+
 public void Load_Doctor_CSV()
 {
 
@@ -129,17 +132,20 @@ connection.setAutoCommit(false);
 
 Statement stmt = connection.createStatement();
 stmt.execute("drop table if exists Doctor");
-stmt.execute("create table if not exists Doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization enum('IMMUNOLOGY','ANESTHESIOLOGY','DERMATOLOGY','ENT','NEUROLOGY','PEDIATRICS','PATHOLOGY','ONCOLOGY','DENTISTRY','OPTHALMOLOGY','EMERGENCY','GYNECOLOGY'), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)");
+stmt.execute("create table if not exists Doctor(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization enum('IMMUNOLOGY','ANESTHESIOLOGY','DERMATOLOGY','ENT','NEUROLOGY','PEDIATRICS','PATHOLOGY','ONCOLOGY','DENTISTRY','OPTHALMOLOGY','EMERGENCY','GYNECOLOGY'), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int, Fees decimal(10,3)");
 stmt.execute("truncate table Doctor");
 
 
-PreparedStatement statement = connection.prepareStatement("insert into Doctor values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+PreparedStatement statement = connection.prepareStatement("insert into Doctor values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
 
 
+
 String lineText = null;
-int count = 0, batchSize = 20;
+int count = 0, batchSize = 100;
 lineReader.readLine(); 
+
 
 
 while ((lineText = lineReader.readLine()) != null) 
@@ -173,6 +179,8 @@ else
 }
 
 int pincode         =  Integer.parseInt(data[index]);
+double fees = Double.parseDouble(data[index + 1])
+
 
 statement.setString(1, ID);
 statement.setString(2, name);
@@ -183,6 +191,7 @@ statement.setString(6, email);
 statement.setString(7, password);
 statement.setString(8, address);
 statement.setInt(9, pincode);
+statement.setDouble(10, fees);
 
 statement.addBatch();
  
@@ -215,6 +224,214 @@ System.err.println(e);
 
 
 }   // End Load_Doctor_CSV Class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public void Load_Hospital_CSV()
+{
+
+try
+{
+
+String csvFilePath = "E:\\IIIT SRI CITY\\SEMESTER - 3\\OOP                  [SECTION - 3]\\PROJECT\\Excel and CSV Data Files For Project\\Patient_CSV.csv";
+
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "1234");
+connection.setAutoCommit(false);
+
+
+Statement stmt = connection.createStatement();
+stmt.execute("drop table if exists Hospital");
+stmt.execute("create table if not exists Hospital(Hospital_Name varchar(50), Hospital_ID varchar(50), ph_no varchar(15)");
+stmt.execute("truncate table Hospital");
+
+
+PreparedStatement statement = connection.prepareStatement("insert into Hospital values (?, ?, ?)");
+BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+
+
+String lineText = null;
+int count = 0, batchSize = 100;
+lineReader.readLine(); 
+
+
+
+while ((lineText = lineReader.readLine()) != null) 
+{
+
+String[] data = lineText.split(",");
+
+String name   =  data[0];
+String ID     =  data[1];
+String ph_no  =  data[2];
+
+statement.setString(1, name);
+statement.setString(2, ID);
+statement.setString(3, ph_no);
+
+
+statement.addBatch();
+ 
+if (count % batchSize == 0)
+	statement.executeBatch();
+
+
+}
+
+ 
+lineReader.close();
+
+statement.executeBatch();
+connection.commit();
+connection.close();
+
+System.out.print("\nInsertion of Hospital Data into Database Server is Successfully Implemented\n");
+
+}
+
+
+
+catch(Exception e)
+{
+System.out.println("\nAn Exception has Occurred\n");
+System.err.println(e);
+}
+
+}      // End Load_Hospital_CSV Class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public void Load_Appointment_CSV()
+{
+
+try
+{
+
+String csvFilePath = "E:\\IIIT SRI CITY\\SEMESTER - 3\\OOP                  [SECTION - 3]\\PROJECT\\Excel and CSV Data Files For Project\\Doctor_CSV.csv";
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Swastha", "root", "1234");
+connection.setAutoCommit(false);
+
+
+Statement stmt = connection.createStatement();
+stmt.execute("drop table if exists Appointment");
+stmt.execute("create table if not exists Appointment(Hospital_ID varchar(30), Name varchar(50), Gender varchar(20), DateOfBirth varchar(20), Specialization enum('IMMUNOLOGY','ANESTHESIOLOGY','DERMATOLOGY','ENT','NEUROLOGY','PEDIATRICS','PATHOLOGY','ONCOLOGY','DENTISTRY','OPTHALMOLOGY','EMERGENCY','GYNECOLOGY'), Email varchar(50), Password varchar(50), Address varchar(200), Pincode int)");
+stmt.execute("truncate table Appointment");
+
+create table if not exists appointment(appointmentID varchar(50),time varchar(50),date varchar(50),doctorEmail varchar(50) , patientEmail varchar(50))");
+       
+
+PreparedStatement statement = connection.prepareStatement("insert into Appointment values (?, ?, ?, ?, ?)");
+BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+
+
+String lineText = null;
+int count = 0, batchSize = 100;
+lineReader.readLine(); 
+
+
+while ((lineText = lineReader.readLine()) != null) 
+{
+
+String[] data = lineText.split(",");
+
+String ID        =  data[0];
+String time      =  data[1];
+String date    =  data[2];
+String doctor_email      =  data[3];
+String patient_email  =  data[4];
+
+
+statement.setString(1, ID);
+statement.setString(2, time);
+statement.setString(3, date);
+statement.setString(4, doctor_email);
+statement.setString(5, patient_email);
+
+statement.addBatch();
+ 
+if (count % batchSize == 0)
+	statement.executeBatch();
+
+
+}
+
+
+ 
+lineReader.close();
+
+statement.executeBatch();
+connection.commit();
+connection.close();
+
+System.out.print("\nInsertion of Appointment Data into Database Server is Successfully Implemented\n");
+
+
+}
+
+
+catch(Exception e)
+{
+System.out.println("\nAn Exception has Occurred\n");
+System.err.println(e);
+}
+
+
+
+}   // End Load_Appointment_CSV Class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -352,6 +569,15 @@ catch(Exception e)
 
 
 
+
+
+
+
+
+
+
+
+
 public void Login_Patient()
 {
 
@@ -478,7 +704,6 @@ catch(Exception e)
 
 
 }    // End Login_Patient Class
-
 
 
 
