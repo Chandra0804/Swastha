@@ -15,7 +15,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TableView layoutX="79.0" layoutY="116.0" prefHeight="262.0" prefWidth="484.0">
+      <TableView fx:id="TableView" layoutX="79.0" layoutY="116.0" prefHeight="262.0" prefWidth="484.0">
         <columns>
           <TableColumn fx:id="DisplayDoctorName" prefWidth="90.0" text="Doctor Name" />
             <TableColumn fx:id="DoctorEmail" prefWidth="99.0" text="Doctor Email" />
